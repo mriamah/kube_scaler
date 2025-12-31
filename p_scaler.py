@@ -79,8 +79,10 @@ def main():
 
     while True:
         MAX_CPU = 0.7
+        # get memory pressure rate which is per-second average rate of increase (here over 60 seconds)
+        # node_pressure_memory_waiting_seconds_total is a counter metric so need to use rate
         payload_mem = {'query': "rate(node_pressure_memory_waiting_seconds_total{instance='"+ TEASTORE_URL +"'}[60s])", 'start': (datetime.now()-timedelta(seconds=10)).timestamp(), 'end': datetime.now().timestamp(), 'step': '1s'}
-
+        # maybe check node_pressure_memory_stalled_seconds_total first (time all tasks were stalled)
         cpu_pressure = 0
         mem_pressure = 0
 
